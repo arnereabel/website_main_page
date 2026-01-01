@@ -7,14 +7,14 @@ Resizes JPG and PNG images while maintaining aspect ratio
 from PIL import Image
 import os
 
-def resize_image(input_path, output_path, max_width=800, quality=85):
+def resize_image(input_path, output_path, max_width=750, quality=85):
     """
     Resize an image while maintaining aspect ratio
 
     Args:
         input_path: Path to input image
         output_path: Path to save resized image
-        max_width: Maximum width in pixels (default: 800)
+        max_width: Maximum width in pixels (default: 750)
         quality: JPEG quality (1-100, default: 85)
     """
     try:
@@ -24,7 +24,7 @@ def resize_image(input_path, output_path, max_width=800, quality=85):
             original_width, original_height = img.size
             print(f"Original size: {original_width}x{original_height}")
 
-            # Calculate new dimensions maintaining aspect ratio
+            # Calculate new dimensions maintaining aspect ratio based on width
             ratio = max_width / original_width
             new_width = max_width
             new_height = int(original_height * ratio)
@@ -49,13 +49,28 @@ def resize_image(input_path, output_path, max_width=800, quality=85):
         print(f"Error processing {input_path}: {e}")
 
 def main():
-    # Images to resize
+    # Images to resize - all with width > 750
     images = [
-      
+        "static/images/filling_120mm_PA.jpg",
+        "static/images/filling_120mm_PA_complete.jpg",
+        "static/images/filling_120mm_PA_layer_2.jpg",
+        "static/images/filling_120mm_PA_layer_6.jpg",
+        "static/images/filling_120mm_PE.jpg",
+        "static/images/filling_120mm_PE_layer_5.jpg",
+        "static/images/slp_setup_jig_setup.jpg",
+        "static/images/tky1_complete_ready_for_transport.jpg",
+        "static/images/tky1_detail_front_root_opening.jpg",
+        "static/images/tky1_detail_side_root_opening.jpg",
+        "static/images/tky1_one_side_complete.jpg",
+        "static/images/tky1_one_side_complete_2.jpg",
+        "static/images/tky1_one_side_filling_backside.jpg",
+        "static/images/weldsupport_jig_setup.jpg",
+        "static/images/weldsupport_root_opening2.jpg",
+        "static/images/welsupport_welded_inside.jpg",
     ]
 
     # Resize settings
-    max_width = 800 # Change this value to your desired width
+    max_width = 750  # Fixed width for all images
     quality = 90    # JPEG quality (1-100)
 
     for image_path in images:
