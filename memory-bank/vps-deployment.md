@@ -1,5 +1,5 @@
 # VPS Deployment & Domain Structure
-**Last Updated**: 2026-01-01
+**Last Updated**: 2026-01-02
 
 ## Server Access
 - **Host**: `46.62.216.163`
@@ -19,10 +19,46 @@
 
 ## Docker Setup
 
-### Container Services
-```
-task_nginx   - Nginx frontend (port 80)
-task_backend - Node.js API (port 3001)
+### Server Specs
+| Spec | Value |
+|------|-------|
+| **OS** | Ubuntu 24.04.3 LTS (Noble Numbat) |
+| **Kernel** | 6.8.0-87-generic |
+| **CPU** | AMD EPYC-Rome, 8 cores, 1 thread/core |
+| **RAM** | 16 GB (typically ~777MB used) |
+| **Disk** | 150 GB SSD (13GB used, 132GB free) |
+| **Docker** | v28.5.1 |
+| **IPv4** | 46.62.216.163 |
+| **IPv6** | 2a01:4f9:c012:3ce4::1 |
+
+### Cloudflare Tunnel
+- **Status**: Active (systemd service)
+- **Config**: `~/.cloudflared/config.yml`
+- **Tunnel ID**: `d3d00f63-3442-4455-88fe-0151570c3c39`
+
+### Listening Ports
+| Port | Service |
+|------|---------|
+| 22 | SSH |
+| 80 | Nginx (Docker) |
+| 3001 | Backend API (Docker) |
+
+### Container Services & Resource Limits
+
+| Container | Port | Memory Limit | Memory Reserved |
+|-----------|------|--------------|-----------------|
+| `task_nginx` | 80 | 512 MB | 64 MB |
+| `task_backend` | 3001 | 1024 MB | 256 MB |
+| *ROS2 (future)* | TBD | 8 GB | - |
+
+### Logging Configuration
+All containers have log rotation enabled:
+```yaml
+logging:
+  driver: "json-file"
+  options:
+    max-size: "10m"   # Max 10MB per log file
+    max-file: "10"    # Keep 10 files (100MB max per container)
 ```
 
 ### Key Files
